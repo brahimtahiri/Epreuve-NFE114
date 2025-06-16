@@ -1,0 +1,41 @@
+{% extends 'base.html' %}
+
+{% block content %}
+    <h4>Exercice 4 - Histogramme</h4>
+    <div id="chart_div" class="mt-5"></div>
+{% endblock %}
+
+{% block script %}
+    <script type="text/javascript" src="https://www.gstatic.com/charts/loader.js"></script>
+    <script>
+        google.charts.load('current', {packages: ['corechart']});
+        google.charts.setOnLoadCallback(drawBackgroundColor);
+
+        function drawBackgroundColor() {
+            function drawChart(data) {
+
+                var dataTable = new google.visualization.DataTable();
+                dataTable.addColumn('string', 'Date');
+                dataTable.addColumn('number', 'Température');
+                data.results.forEach(entry => {
+                    var date = new Date(entry.Jour * 1000);
+                    dataTable.addRow([date.toLocaleDateString(), entry.temp]);
+                });
+
+                var options = {
+                    title: 'Évolution des températures de la ville de Tawarano',
+                    legend: {position: 'bottom'}
+                };
+
+                var chart = new google.visualization.ColumnChart(document.getElementById('chart_div'));
+                chart.draw(dataTable, options);
+            }
+
+            fetch('/tawarano')
+                .then(response => response.json())
+                .then(data => {
+                    drawChart(data);
+                });
+        }
+    </script>
+{% endblock %}
