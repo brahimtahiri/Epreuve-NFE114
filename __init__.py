@@ -66,9 +66,5 @@ def commits_data():
 
     return jsonify(results=results)
 
-@app.route('/exercices')
-def hello_world():
-    return render_template('exercices.html')
-
 if __name__ == "__main__":
     app.run(debug=True)
