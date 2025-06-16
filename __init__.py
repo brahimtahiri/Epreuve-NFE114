@@ -1,5 +1,4 @@
 import json
-from datetime import datetime
 from urllib.request import urlopen
 
 from flask import Flask, render_template, jsonify
